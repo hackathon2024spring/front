@@ -1,0 +1,22 @@
+{
+  "name": "todo_front",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "reactapp",
+  "workspaceFolder": "/home/appuser/devcon",
+  "shutdownAction": "stopCompose",
+  "remoteUser": "appuser",
+  "updateRemoteUserUID": true,
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "mhutchie.git-graph",
+        "ms-azuretools.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  }
+}
