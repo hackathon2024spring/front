@@ -23,6 +23,8 @@ interface GlobalContextProps {
   setShowEventModal: (isShow: boolean) => void;
   dispatchCalEvent: Dispatch<EventAction>;
   savedEvents: CalendarEvent[];
+  selectedEvent: CalendarEvent | null;
+  setSelectedEvent: (event: CalendarEvent | null) => void;
 }
 
 const GlobalContext = createContext<GlobalContextProps>({
@@ -34,6 +36,8 @@ const GlobalContext = createContext<GlobalContextProps>({
   setShowEventModal: () => {},
   dispatchCalEvent: () => {},
   savedEvents: [],
+  selectedEvent: null,
+  setSelectedEvent: () => {},
 });
 
 export default GlobalContext;

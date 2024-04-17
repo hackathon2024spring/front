@@ -12,7 +12,12 @@ const saveEventsReducer = (
   switch (action.type) {
     case "push":
       return [...state, action.payload];
-    // 他のアクションタイプに対する処理もここに追加できます
+    case "update":
+      return state.map((evt) =>
+        evt.id === action.payload.id ? action.payload : evt
+      );
+    case "delete":
+      return state.filter((evt) => evt.id !== action.payload.id);
     default:
       return state;
   }
@@ -20,6 +25,7 @@ const saveEventsReducer = (
 
 const initEvents = () => {
   const storageEvents = localStorage.getItem("savedEvents");
+  console.log(storageEvents);
   const parsedEvents = storageEvents ? JSON.parse(storageEvents) : [];
   return parsedEvents;
 };
@@ -28,6 +34,9 @@ const ContextWrapper: FC<Props> = (props) => {
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
   const [daySelected, setDaySelected] = useState(dayjs());
   const [showEventModal, setShowEventModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
+    null
+  );
   const [savedEvents, dispatchCalEvent] = useReducer(
     saveEventsReducer,
     [],
@@ -40,6 +49,12 @@ const ContextWrapper: FC<Props> = (props) => {
     localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
   }, [savedEvents]);
 
+  useEffect(() => {
+    if (!showEventModal) {
+      setSelectedEvent(null);
+    }
+  }, [showEventModal]);
+
   return (
     <GlobalContext.Provider
       value={{
@@ -49,6 +64,8 @@ const ContextWrapper: FC<Props> = (props) => {
         setDaySelected,
         showEventModal,
         setShowEventModal,
+        selectedEvent,
+        setSelectedEvent,
         dispatchCalEvent,
         savedEvents,
       }}
