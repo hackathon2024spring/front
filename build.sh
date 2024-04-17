@@ -1,20 +1,21 @@
 #!/bin/bash
 set -e
 
-export $(xargs < .env)
+export $(xargs <.env)
 
 DIR="react-app"
 
 if [ -d $DIR ]; then
   cd ./react-app
 else
-  npm create vite@latest react-app -- --template react-swc-ts  
+  npm create vite@latest react-app -- --template react-swc-ts
   cd ./react-app
   # npmライブラリはここに追加して下さい。
   yarn add react react-dom react-router-dom classnames sass react-hook-form react-select react-helmet-async react-icons @dnd-kit/core @dnd-kit/sortable
   yarn add typescript @types/node --save-dev
   sed -i "/plugins: \[/a \ \ server: {\n\ \ \ \ host: '0.0.0.0'\n\ \ }," vite.config.ts
-  yarn add -D tailwindcss postcss autoprefixer
+  yarn add -D tailwindcss postcss autoprefixer dayjs
+  yarn add react-icons --save
   npx tailwindcss init -p
   sed -i "s/content: \[\]/content: \[\".\/src\/\*\*\/\*.{js,jsx,ts,tsx}\"\]/" tailwind.config.js
   cp ../index.css ./src/index.css
@@ -36,11 +37,9 @@ fi
 # clone直後はnode_modulesフォルダだけが無い。package.jsonに基づいてインストール
 yarn
 
-if [ "$NODE_ENV" = "development" ]
-then
+if [ "$NODE_ENV" = "development" ]; then
   yarn run dev
-elif [ "$NODE_ENV" = "production" ]
-then
+elif [ "$NODE_ENV" = "production" ]; then
   yarn run build
   yarn run start
 fi
