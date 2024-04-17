@@ -1,5 +1,18 @@
 import dayjs from "dayjs";
-import { createContext } from "react";
+import { createContext, Dispatch } from "react";
+
+// イベントを表す型定義
+export interface CalendarEvent {
+  title: string;
+  day: number; // dayjs.Dayjs.valueOf() から取得するタイムスタンプ
+  id: number;
+}
+
+// イベントアクションを扱うための型
+interface EventAction {
+  type: string;
+  payload: CalendarEvent;
+}
 
 interface GlobalContextProps {
   monthIndex: number;
@@ -8,6 +21,8 @@ interface GlobalContextProps {
   setDaySelected: (day: dayjs.Dayjs) => void;
   showEventModal: boolean;
   setShowEventModal: (isShow: boolean) => void;
+  dispatchCalEvent: Dispatch<EventAction>;
+  savedEvents: CalendarEvent[];
 }
 
 const GlobalContext = createContext<GlobalContextProps>({
@@ -17,18 +32,8 @@ const GlobalContext = createContext<GlobalContextProps>({
   setDaySelected: () => {},
   showEventModal: false,
   setShowEventModal: () => {},
+  dispatchCalEvent: () => {},
+  savedEvents: [],
 });
 
 export default GlobalContext;
-
-// import { createContext } from "react";
-
-// interface IGlobalContext {
-//   handleGlobalClick: () => void;
-// }
-
-// const GlobalContext = createContext<IGlobalContext>({
-//   handleGlobalClick: () => {},
-// });
-
-// export default GlobalContext;
