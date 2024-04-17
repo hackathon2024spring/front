@@ -1,23 +1,27 @@
 // App.tsx
-import { FC } from "react";
-import ContextWrapper from "../context/ContextWrapper";
+import { FC, useContext, useEffect, useState } from "react";
+import { getMonth } from "../Util";
+import CalendarHeader from "../components/CalendarHeader";
 import Month from "../components/Month";
+import GlobalContext from "../context/GlobalContext";
+import EventModal from "../components/EventModal";
 
 const Calendar: FC = () => {
+  const [currentMonth, setCurrentMonth] = useState(getMonth());
+  const { monthIndex, showEventModal } = useContext(GlobalContext);
+  useEffect(() => {
+    setCurrentMonth(getMonth(monthIndex));
+  }, [monthIndex]);
   return (
-    <ContextWrapper>
-      <div
-        onClick={() => console.log("App clicked")}
-        style={{
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Month />
+    <>
+      {showEventModal && <EventModal />}
+      <div className="h-screen flex flex-col">
+        <CalendarHeader />
+        <div className="flex flex-1">
+          <Month month={currentMonth} />
+        </div>
       </div>
-    </ContextWrapper>
+    </>
   );
 };
 

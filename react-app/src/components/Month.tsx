@@ -1,10 +1,23 @@
-import { FC, useContext } from "react";
-import GlobalContext from "../context/GlobalContext";
+import React, { FC } from "react";
+import dayjs from "dayjs";
+import Day from "./Day";
 
-const Month: FC = () => {
-  const { handleGlobalClick } = useContext(GlobalContext);
+interface MonthProps {
+  month: dayjs.Dayjs[][];
+}
 
-  return <button onClick={handleGlobalClick}>Click me!</button>;
+const Month: FC<MonthProps> = (props) => {
+  const { month } = props;
+  return (
+    <div className="flex-1 grid grid-cols-7 grid-rows-5">
+      {month.map((row, i) => (
+        <React.Fragment key={i}>
+          {row.map((day, idx) => (
+            <Day day={day} key={idx} rowIdx={i} />
+          ))}
+        </React.Fragment>
+      ))}
+    </div>
+  );
 };
-
 export default Month;
