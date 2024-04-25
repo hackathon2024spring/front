@@ -1,63 +1,75 @@
 import { FC } from "react";
+import { useForm } from "react-hook-form";
 import { HelmetProvider } from "react-helmet-async";
+
 const Login: FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+
+  const onSubmit = data => {
+    // ここにログイン処理
+    console.log(data);
+  };
+
   return (
     <>
-      <HelmetProvider>
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Kanit:wght@900&family=Sawarabi+Mincho&display=swap"
-          rel="stylesheet"
-        />
-      </HelmetProvider>
-      <div className="relative overflow-hidden bg-[#4da49c] h-screen ">
-        <div className="font-kanit text-9xl font-black bg-cover bg-clip-text text-transparent pt-5 pl-3 bg-[url('../public/green.jpg')]">
-          LOGIN
-          <div className="absolute bg-white w-[65vw] h-[130vh] -top-32 right-0 rounded-l-full flex justify-center items-center ">
-            <form className="font-dotgothic min-w-[65%] items-end">
-              <div className="flex flex-col text-gray-500">
-                <div className="flex justify-end items-center">
-                  <h1 className=" text-5xl mb-20">LOG IN</h1>
-                </div>
-                <input
-                  className="font-thin text-xl tracking-widest mb-3.5 leading-10 border-b-2 border-b-transparent hover:border-b-[#4da49c] focus:outline-none"
-                  id="email"
-                  type="text"
-                  placeholder="Email"
-                />
-                <input
-                  className="font-thin text-xl tracking-widest mb-3.5 leading-10 border-b-2 border-b-transparent hover:border-b-[#4da49c] focus:outline-none"
-                  id="password"
-                  type="password"
-                  placeholder="Password"
-                />
-                <div className="flex justify-end items-center">
-                  <button className="bg-[#4da49c] hover:bg-[#3a7c76] text-white rounded-full px-16 py-4 text-xl mb-3.5">
-                    LOG IN
-                  </button>
-                </div>
-                <div className="flex justify-end items-center">
-                  <a
-                    href="/"
-                    aria-label="Sign up"
-                    title="Sign up"
-                    className="text-xl"
-                  >
-                    Not registered yet?
-                  </a>
-                </div>
-              </div>
-            </form>
-          </div>
+      <HelmetProvider>{/* Helmet content... */}</HelmetProvider>
+      <div className="flex justify-center items-center min-h-screen bg-[#9debf6]">
+        <div className="w-full max-w-md p-8 rounded-2xl bg-[#9debf6]">
+          <h1 className="text-3xl text-center mb-10 text-customBrown font-semibold font-roundedMplus">
+            ログイン
+          </h1>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+            <div>
+              <label
+                htmlFor="email"
+                className="text-lg text-customBrown font-semibold font-roundedMplus"
+              >
+                メールアドレス
+              </label>
+              <input
+                {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+                className="w-full px-4 py-2 mt-2 border border-gray-200 rounded-xl text-lg focus:ring-customBrown focus:border-customBrown bg-customSkyblue"
+                id="email"
+                type="text"
+              />
+              {errors.email && <p className="text-red-600">メールアドレスは必須です。</p>}
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="text-lg text-customBrown font-semibold font-roundedMplus"
+              >
+                パスワード
+              </label>
+              <input
+                {...register("password", { required: true })}
+                className="w-full px-4 py-2 mt-2 border border-gray-200 rounded-xl text-lg focus:ring-customBrown focus:border-customBrown bg-customSkyblue"
+                id="password"
+                type="password"
+              />
+              {errors.password && <p className="text-red-600">パスワードは必須です。</p>}
+            </div>
+            <div className="text-center">
+              <a
+                href="/register"
+                className="text-lg text-customBrown font-semibold font-roundedMplus hover:underline"
+              >
+                新規登録はこちら
+              </a>
+            </div>
+            <div className="flex justify-center">
+              <button
+                className="w-[150px] py-3 bg-[#FFCC4D] rounded-xl text-lg text-stone-500 font-semibold font-roundedMplus hover:bg-[#ffa726] focus:outline-none focus:ring-2 focus:ring-[#FFCC4D] focus:ring-opacity-50"
+                type="submit"
+              >
+                ログイン
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </>
@@ -65,13 +77,3 @@ const Login: FC = () => {
 };
 
 export default Login;
-
-{
-  /* <input
-    className="text-xl tracking-widest mb-3.5 leading-10"
-    className="text-xl tracking-widest mb-3.5 leading-10 border-b-2 border-b-transparent hover:border-b-[#4da49c] focus:outline-none"
-    id="email"
-    type="text"
-    placeholder="Email"
-  /> */
-}
