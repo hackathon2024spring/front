@@ -7,7 +7,12 @@ export default {
       boxShadow: {
         custom: "0 4px 6px -1px rgba(0, 0, 0, 0.5)", // 半透明の真っ黒な影
       },
+      fontFamily: {
+        roundedMplus: ['"M PLUS Rounded 1c"', "sans-serif"],
+      },
       colors: {
+        customSkyblue: "#f5fdfe",
+        customBrown: "#636262",
         textBody: "#1a1a1c",
         textDescription: "#626264",
         textPlaceholder: "#7f7f78",
