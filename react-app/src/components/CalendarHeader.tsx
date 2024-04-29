@@ -1,39 +1,56 @@
-import { FC, useContext } from "react";
-import dayjs from "dayjs";
-import GlobalContext from "../context/GlobalContext";
-import { MdChevronLeft, MdChevronRight } from "react-icons/md";
+import React, { FC, useContext } from 'react';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ja';
+import GlobalContext from '../context/GlobalContext';
+
+dayjs.locale('ja');
 
 const CalendarHeader: FC = () => {
   const { monthIndex, setMonthIndex } = useContext(GlobalContext);
+
   const handlePrevMonth = () => {
     setMonthIndex(monthIndex - 1);
   };
-  const handelNextMonth = () => {
+
+  const handleNextMonth = () => {
     setMonthIndex(monthIndex + 1);
   };
+
   const handleReset = () => {
     setMonthIndex(dayjs().month());
   };
+
+  const currentMonthNameEnglish = dayjs(new Date(dayjs().year(), monthIndex)).locale('en').format('MMMM');
+  const currentYearAndMonthJapanese = dayjs(new Date(dayjs().year(), monthIndex)).format('YYYY年 M月');
+  const year = currentYearAndMonthJapanese.split(' ')[0];
+  const monthJapanese = currentYearAndMonthJapanese.split(' ')[1];
+
   return (
-    <header className="px-4 py-2 flex items-center">
-      <h1 className="mr-10 text-xl text-gray-500 fond-bold">Calendar</h1>
-      <button onClick={handleReset} className="border rounded py-2 px-4 mr-5">
-        Today
-      </button>
-      <button onClick={handlePrevMonth}>
-        <span className="cursor-pointer text-gray-600 mx-2">
-          <MdChevronLeft />
-        </span>
-      </button>
-      <button onClick={handelNextMonth}>
-        <span className="cursor-pointer text-gray-600 mx-2">
-          <MdChevronRight />
-        </span>
-      </button>
-      <h2 className="ml-4 text-xl text-gray-500 font-bold">
-        {dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}
-      </h2>
-    </header>
+    <div className="flex flex-col">
+      <div className="flex justify-between items-center p-0">
+        {/* 左端のホームアイコン */}
+        <img src="/images/icon-home.png" alt="Home" className="icon-home" />
+        {/* 中央のテキスト */}
+        <div className="recommendation-container">
+          <span className="recommendation-text">今日のおすすめ</span>
+          <span className="activity-text">✨足踏み運動をする✨</span>
+        </div>
+        {/* 右端のアカウントと設定のアイコン */}
+        <div className="flex">
+          <img src="/images/icon-account.png" alt="Account" className="icon-account" />
+          <img src="/images/icon-settings.png" alt="Settings" className="icon-settings" />
+        </div>
+      </div>
+      <header className="flex items-center justify-between">
+        <button onClick={handlePrevMonth} className="triangle-left" aria-label="前の月"></button>
+        <div className="flex-grow flex justify-center items-center space-x-3">
+          <span className="text-xl font-extrabold">{year}</span>
+          <span className="text-4xl font-extrabold">{monthJapanese}</span>
+          <span className="text-xl font-extrabold">{currentMonthNameEnglish}</span>
+        </div>
+        <button onClick={handleNextMonth} className="triangle-right" aria-label="次の月"></button>
+      </header>
+    </div>
   );
 };
 
