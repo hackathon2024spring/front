@@ -9,7 +9,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Calendar from "./components/Calendar";
 import User from "./components/User";
-import ExerciseSetting from "./components/User";
+import ExerciseSetting from "./components/ExerciseSetting";
 // import './App.css'
 
 const router = createBrowserRouter(
