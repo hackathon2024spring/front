@@ -1,5 +1,129 @@
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap');
 
+.grid.grid-cols-7.text-center.border-b.font-roundedMplus {
+  margin-top: 0; 
+  background-color: #9debf6; 
+  padding-top: 1rem; 
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.1); 
+}
+
+/* 月と年の表示を行なっている部分のスタイルを調整します */
+.calendar-header .month-and-year {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0; 
+  padding: 0.5rem 1rem; 
+  background-color: #9debf6; 
+  position: relative;
+}
+
+/* 月を表示する部分を調整します */
+.calendar-header .month-and-year .month {
+  font-size: 1.5rem; 
+  color: #333; 
+  font-weight: bold; 
+}
+
+/* 年を表示する部分を調整します */
+.calendar-header .month-and-year .year {
+  font-size: 1rem;
+}
+
+/* CalendarHeader コンポーネント内のヘッダー部分のスタイルを調整 */
+.header.flex.items-center.justify-between.p-4 {
+  padding-top: 0;
+  position: relative; /* 相対位置指定 */
+  z-index: 9; /* 曜日ラベルの下に */
+}
+
+.recommendation-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column;
+  background: url('/images/icon-recommend.png') no-repeat center center;
+  background-size: contain;
+  width: 100%; 
+  height: 106px;
+  position: relative;
+  margin-top: 3em;
+  z-index: 1;
+}
+
+.recommendation-text,
+.activity-text {
+  position: relative;
+  transform: translate(-50%, -50%); 
+  background: transparent;
+  font-weight: bold;
+}
+
+.recommendation-text {
+  top: 5%; /* 吹き出し内での上からの位置を指定 */
+  left:0%;
+}
+
+.activity-text {
+  top: 15%;
+  left:0%;
+  font-size: 1.5em; 
+  margin-left: 12em;
+  margin-bottom: 0.5em;
+}
+
+.recommendation,
+.recommendation-highlight {
+  background: transparent;
+  font-weight: bold;
+  padding: 0 0.5em; 
+}
+
+.icon-home {
+  width: 30px; 
+  height: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 7px;
+  left: 10px;
+}
+
+.icon-account {
+  width: 37px; 
+  height: 37px;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 55px;
+}
+
+.icon-settings {
+  width: 30px; 
+  height: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 9px;
+  right: 15px;  
+}
+
+.triangle-left {
+  width: 30px; 
+  height: 30px; 
+  background-color: #D5FFFF; 
+  clip-path: polygon(0 50%, 100% 0, 100% 100%); /* 左向きの三角形 */
+  position: absolute;
+  left: 15px;
+}
+
+.triangle-right {
+  width: 30px; 
+  height: 30px; 
+  background-color: #D5FFFF; 
+  clip-path: polygon(100% 50%, 0 0, 0 100%); /* 右向きの三角形 */
+  position: absolute;
+  right: 15px;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -7,6 +131,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: var(--customBrown, #5f5f5f); 
 }
 
 code {
@@ -14,6 +139,27 @@ code {
     monospace;
 }
 
+@media (max-width: 546px) {
+  .recommendation-text {
+    top: 7%;
+    left: 0%; 
+    transform: translate(-50%, -10%);
+  }
+
+  .activity-text {
+    top: 18%;
+    left: 50%; 
+    transform: translate(-50%, -25%);
+    font-size: 1.5em;
+    margin-left: auto; 
+    margin-right: auto; 
+    margin-bottom: 1.5em;
+    width: calc(100% - 1em); 
+    text-align: center; 
+  }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
