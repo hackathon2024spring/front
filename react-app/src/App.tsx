@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Calendar from "./components/Calendar";
 import User from "./components/User";
+import Exercise from "./components/Exercise";
 // import './App.css'
 
 const router = createBrowserRouter(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="signup" element={<Signup />} />
       <Route path="calendar" element={<Calendar />} />
       <Route path="user" element={<User />} />
+      <Route path="exercise" element={<Exercise />} />
     </>
   )
 );
