@@ -1,17 +1,50 @@
-import { FC } from "react";
-import { useForm } from "react-hook-form";
+import { FC, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { BaseURL } from "../utilities/base_url";
 import { HelmetProvider } from "react-helmet-async";
+import { Link, useNavigate } from "react-router-dom";
+
+type LoginForm = {
+  email: string;
+  password: string;
+}
 
 const Login: FC = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm();
+    formState: { errors },
+  } = useForm<LoginForm>();
 
-  const onSubmit = data => {
-    // ここにログイン処理
-    console.log(data);
+  const [message, setMessage] = useState(""); // メッセージ表示用の状態
+  const mailadressCheck = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+
+  const onSubmit: SubmitHandler<LoginForm> = async (data) => {
+    setMessage(""); // 送信前にメッセージをクリア
+
+    try {
+      const response = await fetch(`${BaseURL()}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      });
+      const responseData = await response.json(); // レスポンスのJSONを解析
+      if (response.ok) {
+        // setMessage("ログインに成功しました。"); // 成功メッセージを設定
+        navigate("/calendar")
+      } else {
+        setMessage(responseData.detail || "ログインに失敗しました。"); // 失敗メッセージを設定
+      }
+    } catch (error) {
+      console.log(error);
+      //   setMessage("通信エラーが発生しました。"); // エラーメッセージを設定
+    }
   };
 
   return (
@@ -31,12 +64,17 @@ const Login: FC = () => {
                 メールアドレス
               </label>
               <input
-                {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+                {...register("email", {
+                  required: true,
+                  pattern: mailadressCheck,
+                })}
                 className="w-full px-4 py-2 mt-2 border border-gray-200 rounded-xl text-lg focus:ring-customBrown focus:border-customBrown bg-customSkyblue"
                 id="email"
                 type="text"
               />
-              {errors.email && <p className="text-red-600">メールアドレスは必須です。</p>}
+              {errors.email && (
+                <p className="text-red-600">メールアドレスは必須です。</p>
+              )}
             </div>
             <div>
               <label
@@ -51,15 +89,14 @@ const Login: FC = () => {
                 id="password"
                 type="password"
               />
-              {errors.password && <p className="text-red-600">パスワードは必須です。</p>}
+              {errors.password && (
+                <p className="text-red-600">パスワードは必須です。</p>
+              )}
             </div>
             <div className="text-center">
-              <a
-                href="/register"
-                className="text-lg text-customBrown font-semibold font-roundedMplus hover:underline"
-              >
+              <Link className="text-lg text-customBrown font-semibold font-roundedMplus hover:underline" to="/signup">
                 新規登録はこちら
-              </a>
+              </Link>
             </div>
             <div className="flex justify-center">
               <button
@@ -69,6 +106,12 @@ const Login: FC = () => {
                 ログイン
               </button>
             </div>
+            <div className="text-center font-bold mt-10 mb-10">
+              {message && (
+                <div> {message}  </div>
+              )}
+            </div>
+
           </form>
         </div>
       </div>
