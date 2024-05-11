@@ -22,7 +22,7 @@ const router = createBrowserRouter(
       <Route path="calendar" element={<Calendar />} />
       <Route path="user" element={<User />} />
       <Route path="exercise" element={<Exercise />} />
-      <Route path="exercise_setting" element={<ExerciseSetting />} />
+      <Route path="exercises_setting" element={<ExerciseSetting />} />
     </>
   )
 );

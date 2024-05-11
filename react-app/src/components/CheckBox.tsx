@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 
-const Checkbox: React.FC = () => {
-  const [isCheck, setIsCheck] = useState<boolean>(false);
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsCheck(event.target.checked);
-  };
+interface CheckboxProps {
+  isChecked: boolean;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
+const Checkbox: React.FC<CheckboxProps> = ({ isChecked, onChange }) => {
   return (
     <label>
       <input
         type="checkbox"
-        checked={isCheck}
-        onChange={handleCheckboxChange}
+        checked={isChecked}  // 親コンポーネントからの状態を直接使用
+        onChange={onChange}
         className="peer sr-only"
       />
       <span
