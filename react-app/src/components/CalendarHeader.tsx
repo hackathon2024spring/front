@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
 import GlobalContext from '../context/GlobalContext';

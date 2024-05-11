@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { getMonth } from "../Util";
 import CalendarHeader from "../components/CalendarHeader";
 import Month from "../components/Month";
