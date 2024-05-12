@@ -139,6 +139,11 @@ code {
     monospace;
 }
 
+.dimmed {
+  opacity: 0.2;
+  transition: opacity 0.1s;
+}
+
 @media (max-width: 546px) {
   .recommendation-text {
     top: 7%;

@@ -1,12 +1,14 @@
-import React, { FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
 import GlobalContext from '../context/GlobalContext';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 dayjs.locale('ja');
 
 const CalendarHeader: FC = () => {
   const { monthIndex, setMonthIndex } = useContext(GlobalContext);
+  const navigate = useNavigate(); // Create a navigate function using the useNavigate hook
 
   const handlePrevMonth = () => {
     setMonthIndex(monthIndex - 1);
@@ -20,25 +22,27 @@ const CalendarHeader: FC = () => {
     setMonthIndex(dayjs().month());
   };
 
+  const handleSettingsClick = () => {
+    navigate('/exercises_setting'); // Function to navigate to settings page
+  };
+
   const currentMonthNameEnglish = dayjs(new Date(dayjs().year(), monthIndex)).locale('en').format('MMMM');
-  const currentYearAndMonthJapanese = dayjs(new Date(dayjs().year(), monthIndex)).format('YYYY年 M月');
+  const currentYearAndMonthJapanese = dayjs(new Date(dayjs().year(), monthIndex)).format('YYYY M月');
   const year = currentYearAndMonthJapanese.split(' ')[0];
   const monthJapanese = currentYearAndMonthJapanese.split(' ')[1];
 
   return (
     <div className="flex flex-col">
       <div className="flex justify-between items-center p-0">
-        {/* 左端のホームアイコン */}
         <img src="/images/icon-home.png" alt="Home" className="icon-home" />
-        {/* 中央のテキスト */}
         <div className="recommendation-container">
           <span className="recommendation-text">今日のおすすめ</span>
           <span className="activity-text">✨足踏み運動をする✨</span>
         </div>
-        {/* 右端のアカウントと設定のアイコン */}
         <div className="flex">
           <img src="/images/icon-account.png" alt="Account" className="icon-account" />
-          <img src="/images/icon-settings.png" alt="Settings" className="icon-settings" />
+          {/* Add onClick handler to settings icon */}
+          <img src="/images/icon-settings.png" alt="Settings" className="icon-settings" onClick={handleSettingsClick} />
         </div>
       </div>
       <header className="flex items-center justify-between">
