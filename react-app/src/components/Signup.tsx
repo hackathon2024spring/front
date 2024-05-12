@@ -60,8 +60,8 @@ const Signup: FC = () => {
               <img
                 src={TitleIcon}
                 alt="Chocolog"
-                width={250}
-                height={250}
+                width={270}
+                height={270}
                 style={{ color: "red", marginBottom: "0rem", display: 'block', marginLeft: 'auto', marginRight: 'auto' }} // This centers the image
               />
             </div>
@@ -76,7 +76,7 @@ const Signup: FC = () => {
             <input
               id="username"
               type="text"
-              placeholder="username"
+              placeholder="Username"
               {...register("username", {
                 required: "ユーザーネームは必須です",
                 pattern: {
