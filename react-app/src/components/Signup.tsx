@@ -53,32 +53,30 @@ const Signup: FC = () => {
   };
   return (
     <>
-      <div className="flex justify-center items-center bg-cyan-200 min-h-screen">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
-          <div className="flex flex-col text-gray-500">
-            <div className="flex justify-center items-end mb-10 text-center text-2xl font-bold">
+      <div className="flex justify-center items-center bg-[#74ecff] min-h-screen">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-10" style={{ width: '380px' }}>
+          <div className="flex flex-col text-customBrown font-roundedMplus">
+            <div className="text-center text-2xl font-bold">
               <img
                 src={TitleIcon}
-                alt=""
-                width={70}
-                height={70}
-                style={{ color: "red" }}
+                alt="Chocolog"
+                width={270}
+                height={270}
+                style={{ color: "red", marginBottom: "0rem", display: 'block', marginLeft: 'auto', marginRight: 'auto' }} // This centers the image
               />
-              <h1 className="text-7xl text-gray-500">Choco</h1>
-              <h1 className="text-7xl text-gray-500">log</h1>
             </div>
-
+  
             <div className="text-center text-2xl font-bold">
               新規登録
             </div>
 
-            <label htmlFor="username" className="font-bold text-left mt-10">
+            <label htmlFor="username" className="text-lg text-left font-semibold mt-2">
               ユーザー名
             </label>
             <input
               id="username"
               type="text"
-              placeholder="username"
+              placeholder="Username"
               {...register("username", {
                 required: "ユーザーネームは必須です",
                 pattern: {
@@ -87,13 +85,13 @@ const Signup: FC = () => {
                     "ユーザーネームは 半角大文字小文字 英数字と_.- 3文字〜16文字",
                 },
               })}
-              className="bg-cyan-50 text-xl mt-2 p-2.5 focus:outline-none rounded-lg"
+              className="bg-cyan-50 text-lg mt-1 p-2.5 focus:outline-none rounded-xl"
             />
             {errors.username && (
               <div className="text-red-600">{errors.username.message}</div>
             )}
 
-            <label htmlFor="email" className="text-left font-bold mt-10">
+            <label htmlFor="email" className="text-lg text-left font-semibold mt-10">
               メールアドレス
             </label>
             <input
@@ -107,14 +105,14 @@ const Signup: FC = () => {
                   message: "メールアドレスを入力し直してください",
                 },
               })}
-              className="bg-cyan-50 text-xl mt-2 p-2.5 focus:outline-none rounded-lg"
+              className="bg-cyan-50 text-lg mt-1 p-2.5 focus:outline-none rounded-xl"
             />
             {errors.email && (
               <div className="text-red-600">{errors.email.message}</div>
             )}
 
 
-            <label htmlFor="password" className="text-left font-bold mt-10">
+            <label htmlFor="password" className="text-lg text-left font-semibold mt-10">
               パスワード
             </label>
             <input
@@ -124,14 +122,14 @@ const Signup: FC = () => {
               {...register("password", {
                 required: "パスワードは必須です",
               })}
-              className="bg-cyan-50 text-xl mt-2 p-2.5 focus:outline-none rounded-lg"
+              className="bg-cyan-50 text-lg mt-1 p-2.5 focus:outline-none rounded-xl"
             />
             {errors.password && (
               <div className="text-red-600">{errors.password.message}</div>
             )}
 
 
-            <label htmlFor="passwordConfirm" className="text-left font-bold mt-10">
+            <label htmlFor="passwordConfirm" className="text-lg text-left font-bold mt-10">
               パスワード（確認用）
             </label>
             <input
@@ -142,10 +140,10 @@ const Signup: FC = () => {
                 validate: (value) =>
                   value === password || "パスワードが一致しません",
               })}
-              className="bg-cyan-50 text-xl mt-2 p-2.5 focus:outline-none rounded-lg"
+              className="bg-cyan-50 text-lg mt-1 p-2.5 focus:outline-none rounded-xl"
             />
 
-            <div className="text-center font-bold mt-10 mb-10">
+            <div className="text-lg text-center font-bold mt-8 mb-8">
               <Link to="/login" className="hover:underline">
                 ログインはこちら
               </Link>
@@ -154,7 +152,7 @@ const Signup: FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-1/4 focus:outline-none bg-yellow-400 hover:bg-yellow-500 font-bold p-3 rounded-lg">
+                className="w-1/3 focus:outline-none bg-yellow-400 hover:bg-yellow-500 text-lg font-semibold p-3 rounded-xl">
                 {isSubmitting ? "登録中..." : "新規登録"}
               </button>
             </div>

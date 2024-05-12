@@ -1,8 +1,8 @@
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BaseURL } from "../utilities/base_url";
-import { HelmetProvider } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
+import TitleIcon from "../../public/chocolog.svg";
 
 type LoginForm = {
   email: string;
@@ -49,10 +49,19 @@ const Login: FC = () => {
 
   return (
     <>
-      <HelmetProvider>{/* Helmet content... */}</HelmetProvider>
-      <div className="flex justify-center items-center min-h-screen bg-[#9debf6]">
-        <div className="w-full max-w-md p-8 rounded-2xl bg-[#9debf6]">
-          <h1 className="text-3xl text-center mb-10 text-customBrown font-semibold font-roundedMplus">
+      <div className="flex justify-center min-h-screen bg-[#74ecff]">
+        <div className="w-90% max-w-md rounded-2xl bg-[#74ecff]">
+          <div className="text-center text-2xl font-bold">
+                <img
+                  src={TitleIcon}
+                  alt="Chocolog"
+                  width={270}
+                  height={270}
+                  style={{ color: "red", marginBottom: "0rem", display: 'block', marginLeft: 'auto', marginRight: 'auto' }} // This centers the image
+                />
+          </div>
+          
+          <h1 className="text-2xl text-center mb-10 text-customBrown font-bold font-roundedMplus">
             ログイン
           </h1>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
@@ -68,9 +77,10 @@ const Login: FC = () => {
                   required: true,
                   pattern: mailadressCheck,
                 })}
-                className="w-full px-4 py-2 mt-2 border border-gray-200 rounded-xl text-lg focus:ring-customBrown focus:border-customBrown bg-customSkyblue"
+                className="w-full px-4 py-2 mt-2 border border-gray-200 rounded-xl text-lg focus:outline-none bg-customSkyblue"
                 id="email"
                 type="text"
+                placeholder="Email"
               />
               {errors.email && (
                 <p className="text-red-600">メールアドレスは必須です。</p>
@@ -85,9 +95,10 @@ const Login: FC = () => {
               </label>
               <input
                 {...register("password", { required: true })}
-                className="w-full px-4 py-2 mt-2 border border-gray-200 rounded-xl text-lg focus:ring-customBrown focus:border-customBrown bg-customSkyblue"
+                className="w-full px-4 py-2 mt-2 border border-gray-200 rounded-xl text-lg focus:outline-none bg-customSkyblue"
                 id="password"
                 type="password"
+                placeholder="Password"
               />
               {errors.password && (
                 <p className="text-red-600">パスワードは必須です。</p>
