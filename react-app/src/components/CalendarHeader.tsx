@@ -18,10 +18,6 @@ const CalendarHeader: FC = () => {
     setMonthIndex(monthIndex + 1);
   };
 
-  const handleReset = () => {
-    setMonthIndex(dayjs().month());
-  };
-
   const handleUserClick = () => {
     navigate('/user'); // Function to navigate to settings page
   };
