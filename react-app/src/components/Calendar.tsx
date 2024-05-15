@@ -16,7 +16,7 @@ const Calendar: FC = () => {
   return (
     <>
       {showEventModal && <EventModal />}
-      <div className="h-screen flex flex-col bg-[#9debf6] font-roundedMplus">
+      <div className="h-screen flex flex-col items-center bg-[#9debf6] font-roundedMplus">
         <CalendarHeader />
         <WeekDaysLabels />
         {/* Pass the current month index to the Month component */}
@@ -31,7 +31,7 @@ const WeekDaysLabels: FC = () => {
   const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
   return (
-    <div className="grid grid-cols-7 text-center border-b font-roundedMplus font-bold">
+    <div className="flex justify-center grid grid-cols-7 text-center border-b font-roundedMplus font-bold w-2/3">
       {weekDays.map((day, index) => (
         <div
           key={day}

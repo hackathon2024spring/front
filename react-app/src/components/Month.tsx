@@ -9,7 +9,7 @@ interface MonthProps {
 
 const Month: FC<MonthProps> = ({ month, currentMonthIndex }) => {
   return (
-    <div className="flex-1 grid grid-cols-7 gap-1.5 p-1.5">
+    <div className="flex-1 grid grid-cols-7 gap-1.5 p-1.5 w-2/3 mb-12">
       {month.map((row, i) => (
         <React.Fragment key={i}>
           {row.map((day, idx) => (
