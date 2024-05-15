@@ -1,5 +1,52 @@
-import { FC } from "react";
+import React, { FC, useState, useEffect } from 'react';
+import { BaseURL } from '../utilities/base_url';
+import { Link, useNavigate } from 'react-router-dom';
+
+interface User {
+  username: string;
+  email: string;
+}
 const User: FC = () => {
+  const [user, setUser] = useState<User>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${BaseURL()}/user`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const result = await response.json();
+        if (response.ok && result.status === 1) {
+          setUser({
+            username: result.data.username,
+            email: result.data.email,
+          });
+        } else {
+          throw new Error(result.detail || 'データの通信に失敗しました。');
+        }
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  const handleBack = () => {
+    navigate('/calendar');
+  };
+
   return (
     <>
       <div className="flex justify-center items-center bg-cyan-200 min-h-screen">
@@ -14,7 +61,7 @@ const User: FC = () => {
                   ユーザー名
                 </div>
                 <div className="bg-gray-200 text-xl p-2.5 rounded-lg">
-                  〇〇
+                  {user && user.username}
                 </div>
               </div>
             </div>
@@ -24,15 +71,15 @@ const User: FC = () => {
                   メールアドレス
                 </div>
                 <div className="bg-gray-200 text-xl p-2.5 rounded-lg">
-                  〇〇
+                  {user && user.email}
                 </div>
               </div>
             </div>
-            <div className="flex justify-center">
-              <button className="font-bold w-1/4 focus:outline-none bg-cyan-200 hover:bg-cyan-300 p-3 rounded-lg mb-10">
+            <Link className="flex justify-center" to="/calendar">
+              <button onClick={handleBack} className="font-bold w-1/4 focus:outline-none bg-cyan-200 hover:bg-cyan-300 p-3 rounded-lg mb-10">
                 戻る
               </button>
-            </div>
+            </Link>
           </div>
         </form>
       </div>
