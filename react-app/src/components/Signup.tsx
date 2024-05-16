@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import { BaseURL } from "../utilities/base_url";
 import { SubmitHandler, useForm } from "react-hook-form";
-import TitleIcon from "../../public/chocolog.svg";
+import TitleIcon from "/chocolog.svg";
 
 type SignupForm = {
   username: string;
@@ -65,7 +65,7 @@ const Signup: FC = () => {
                 style={{ color: "red", marginBottom: "0rem", display: 'block', marginLeft: 'auto', marginRight: 'auto' }} // This centers the image
               />
             </div>
-  
+
             <div className="text-center text-2xl font-bold">
               新規登録
             </div>

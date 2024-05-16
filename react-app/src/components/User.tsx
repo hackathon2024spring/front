@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { BaseURL } from '../utilities/base_url';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -31,7 +31,11 @@ const User: FC = () => {
           throw new Error(result.detail || 'データの通信に失敗しました。');
         }
       } catch (e) {
-        setError(e.message);
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError('An unknown error occurred.');
+        }
       } finally {
         setLoading(false);
       }

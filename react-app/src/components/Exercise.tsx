@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 
 const Exercise: FC = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -15,13 +15,13 @@ const Exercise: FC = () => {
               <div className={`w-2/3 flex flex-row justify-start rounded-full items-center mb-20 hover:cursor-pointer ${isActive ? 'bg-yellow-400' : 'bg-white'}`}>
                 <div className="inline-flex items-center mr-10">
                   <label className="relative flex items-center p-3 rounded-full cursor-pointer"
-                        htmlFor="customStyle"
-                        onClick={() => setIsActive(!isActive)}>
+                    htmlFor="customStyle"
+                    onClick={() => setIsActive(!isActive)}>
                     <input type="checkbox"
                       checked={isActive}
                       onChange={(e) => setIsActive(e.target.checked)}
                       className="before:content[''] peer relative h-10 w-10 bg-white cursor-pointer appearance-none rounded-full border border-yellow-500 hover:scale-105"
-                      id="customStyle"  />
+                      id="customStyle" />
                     <span
                       className="absolute text-yellow-500 transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor"
