@@ -33,18 +33,20 @@ const CalendarHeader: FC = () => {
 
   return (
     <div className="flex flex-col">
+       <div className="absolute right-[100px]">
+          <img src="/images/icon-account.png" alt="Account" className="w-10 h-10 mt-1" onClick={handleUserClick} />
+        </div>
+        <div className="absolute right-[50px]">
+          <img src="/images/icon-settings.png" alt="Settings" className="w-8 h-8 mt-2" onClick={handleSettingsClick} />
+        </div>
       <div className="flex justify-between items-center p-0">
-        <img src="/images/icon-home.png" alt="Home" className="icon-home" />
         <div className="recommendation-container">
           <span className="recommendation-text">今日のおすすめ</span>
           <span className="activity-text">✨足踏み運動をする✨</span>
         </div>
-        <div className="flex">
-          <img src="/images/icon-account.png" alt="Account" className="icon-account mt-5 mx-4 w-14 h-14" onClick={handleUserClick} />
-          {/* Add onClick handler to settings icon */}
-          <img src="/images/icon-settings.png" alt="Settings" className="icon-settings mt-5 w-12 h-12" onClick={handleSettingsClick} />
-        </div>
       </div>
+
+
       <header className="flex items-center justify-between">
         <button onClick={handlePrevMonth} className="triangle-left" aria-label="前の月"></button>
         <div className="flex-grow flex justify-center items-center space-x-3">
