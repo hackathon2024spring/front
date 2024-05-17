@@ -113,16 +113,16 @@ const Exercise: FC = () => {
             </div>
             {exercises.map((exercise) => (
               <div key={exercise.exerciseId} className="flex justify-center">
-                <div 
+                <div
                   className={`w-2/3 flex flex-row justify-start rounded-full items-center mb-3 hover:cursor-pointer ${activeStates[exercise.exerciseId] ? 'bg-yellow-400' : 'bg-white'}`}
                   onClick={() => handleToggleActive(exercise.exerciseId)}
                 >
                   <div className="inline-flex items-center mr-10">
                     <label className="relative flex items-center p-3 rounded-full cursor-pointer"
-                          htmlFor={`customStyle-${exercise.exerciseId}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}>
+                      htmlFor={`customStyle-${exercise.exerciseId}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}>
                       <input type="checkbox"
                         checked={!!activeStates[exercise.exerciseId]}
                         onChange={() => handleToggleActive(exercise.exerciseId)}

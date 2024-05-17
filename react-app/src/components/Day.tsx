@@ -1,26 +1,17 @@
-import { FC, useEffect, useState, useContext } from "react";
+import { FC } from "react";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import Hanamaru from '../../public/hanamaru.svg';
-import GlobalContext, { CalendarEvent } from "../context/GlobalContext";
+
 
 interface DayProps {
   day: dayjs.Dayjs;
   rowIdx: number;
-  currentMonthIndex: number; 
+  currentMonthIndex: number;
 }
 
 const Day: FC<DayProps> = ({ day, currentMonthIndex }) => {
   const navigate = useNavigate();
-  const [dayEvents, setDayEvents] = useState<CalendarEvent[]>([]);
-  const { savedEvents } = useContext(GlobalContext);
-
-  useEffect(() => {
-    const events = savedEvents.filter(evt =>
-      dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY")
-    );
-    setDayEvents(events);
-  }, [savedEvents, day]);
 
   const isCurrentMonth = day.month() === currentMonthIndex;
   const nonCurrentMonthClass = isCurrentMonth ? "" : "opacity-20";
@@ -32,12 +23,12 @@ const Day: FC<DayProps> = ({ day, currentMonthIndex }) => {
   };
 
   const dayClasses = day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
-    ? "bg-[#FFCC4D] rounded-full text-center" 
-    : day.day() === 6 
-    ? "text-blue-500"
-    : day.day() === 0 
-    ? "text-red-500"
-    : "text-customBrown";
+    ? "bg-[#FFCC4D] rounded-full text-center"
+    : day.day() === 6
+      ? "text-blue-500"
+      : day.day() === 0
+        ? "text-red-500"
+        : "text-customBrown";
 
   const dayNumberClasses = `text-lg font-bold my-1 ${getCurrentDayClass()} ${dayClasses} ${nonCurrentMonthClass}`;
 
@@ -50,13 +41,13 @@ const Day: FC<DayProps> = ({ day, currentMonthIndex }) => {
 
   return (
     <div className="border border-borderDivider flex flex-col rounded-none overflow-hidden">
-      <header className="bg-customSkyblue p-1 flex justify-center"> 
+      <header className="bg-customSkyblue p-1 flex justify-center">
         <p className={dayNumberClasses}>
-          {day.format("D")} 
+          {day.format("D")}
         </p>
       </header>
-      <div 
-        onClick={handleExerciseClick} 
+      <div
+        onClick={handleExerciseClick}
         className="bg-customSkyblue p-1 flex-1 cursor-pointer flex flex-col items-center justify-center relative"
       >
         {showHanamaru && <img src={Hanamaru} alt="花丸" className="absolute bottom-0 mb-0 w-20 h-20" />}

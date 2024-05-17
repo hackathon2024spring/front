@@ -2,7 +2,8 @@ import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BaseURL } from "../utilities/base_url";
 import { Link, useNavigate } from "react-router-dom";
-import TitleIcon from "../../public/chocolog.svg";
+import TitleIcon from "/chocolog.svg";
+
 
 type LoginForm = {
   email: string;
@@ -52,15 +53,15 @@ const Login: FC = () => {
       <div className="flex justify-center min-h-screen bg-[#74ecff]">
         <div className="w-90% max-w-md rounded-2xl bg-[#74ecff]">
           <div className="text-center text-2xl font-bold">
-                <img
-                  src={TitleIcon}
-                  alt="Chocolog"
-                  width={270}
-                  height={270}
-                  style={{ color: "red", marginBottom: "0rem", display: 'block', marginLeft: 'auto', marginRight: 'auto' }} // This centers the image
-                />
+            <img
+              src={TitleIcon}
+              alt="Chocolog"
+              width={270}
+              height={270}
+              style={{ color: "red", marginBottom: "0rem", display: 'block', marginLeft: 'auto', marginRight: 'auto' }} // This centers the image
+            />
           </div>
-          
+
           <h1 className="text-2xl text-center mb-10 text-customBrown font-bold font-roundedMplus">
             ログイン
           </h1>
