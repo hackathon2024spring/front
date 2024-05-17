@@ -1,8 +1,8 @@
-import { FC, useEffect, useState, useContext } from "react";
+import { FC } from "react";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import Hanamaru from '../../public/hanamaru.svg';
-import GlobalContext, { CalendarEvent } from "../context/GlobalContext";
+
 
 interface DayProps {
   day: dayjs.Dayjs;
@@ -12,15 +12,6 @@ interface DayProps {
 
 const Day: FC<DayProps> = ({ day, currentMonthIndex }) => {
   const navigate = useNavigate();
-  const [dayEvents, setDayEvents] = useState<CalendarEvent[]>([]);
-  const { savedEvents } = useContext(GlobalContext);
-
-  useEffect(() => {
-    const events = savedEvents.filter(evt =>
-      dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY")
-    );
-    setDayEvents(events);
-  }, [savedEvents, day]);
 
   const isCurrentMonth = day.month() === currentMonthIndex;
   const nonCurrentMonthClass = isCurrentMonth ? "" : "opacity-20";
@@ -61,16 +52,6 @@ const Day: FC<DayProps> = ({ day, currentMonthIndex }) => {
       >
         {showHanamaru && <img src={Hanamaru} alt="花丸" className="absolute bottom-0 mb-0 w-20 h-20" />}
       </div>
-
-      {/* イベントリスト サンプル*/}
-      <ul className="p-2">
-        {dayEvents.map((event, index) => (
-          <li key={index} className="text-sm py-1">
-            {event.title}
-          </li>
-        ))}
-      </ul>
-
     </div>
   );
 };
