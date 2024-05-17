@@ -30,7 +30,7 @@ const User: FC = () => {
         } else {
           throw new Error(result.detail || 'データの通信に失敗しました。');
         }
-      } catch (e) {
+      } catch (e: unknown) {
         if (e instanceof Error) {
           setError(e.message);
         } else {

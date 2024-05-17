@@ -36,7 +36,7 @@ const ExerciseSetting: FC = () => {
         } else {
           throw new Error(result.detail || 'データの通信に失敗しました。');
         }
-      } catch (e) {
+      } catch (e: unknown) {
         if (e instanceof Error) {
           setError(e.message);
         } else {
@@ -82,7 +82,7 @@ const ExerciseSetting: FC = () => {
         throw new Error('選択した設定の保存に失敗しました。');
       }
       navigate('/calendar');  // 成功後のリダイレクト
-    } catch (e) {
+    } catch (e: unknown) {
       if (e instanceof Error) {
         setError(e.message);
       } else {
