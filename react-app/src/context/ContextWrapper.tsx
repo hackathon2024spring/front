@@ -13,7 +13,6 @@ interface FetchData {
   data: DayEvent[];
 }
 
-
 const ContextWrapper: FC<Props> = ({ children }) => {
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
   const [dayEvents, setDayEvents] = useState<DayEvent[] | null>(null);
@@ -44,14 +43,9 @@ const ContextWrapper: FC<Props> = ({ children }) => {
       };
 
       fetchDayEvents()
-      console.log(monthIndex)
     }
     prevMonthIndexRef.current = monthIndex;
   }, [monthIndex]);
-
-  useEffect(() => {
-    console.log(dayEvents)
-  }, [dayEvents]);
 
   return (
     <GlobalContext.Provider

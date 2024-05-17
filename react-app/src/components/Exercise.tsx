@@ -9,6 +9,12 @@ interface Exercise {
   done: boolean;
 }
 
+interface FetchedExercise {
+  exerciseId: number;
+  exerciseName: string;
+  exerciseDone: boolean;
+}
+
 const Exercise: FC = () => {
   const [activeStates, setActiveStates] = useState<{ [key: number]: boolean }>({});
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -31,7 +37,7 @@ const Exercise: FC = () => {
         });
         const result = await response.json();
         if (response.ok && result.status === 1) {
-          const exercisesData = result.data.map((ex: any) => ({
+          const exercisesData = result.data.map((ex: FetchedExercise) => ({
             exerciseId: ex.exerciseId,
             exerciseName: ex.exerciseName,
             done: ex.exerciseDone,
@@ -46,8 +52,12 @@ const Exercise: FC = () => {
         } else {
           throw new Error(result.detail || 'データの通信に失敗しました。');
         }
-      } catch (e) {
-        setError(e.message);
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError('Unknown error occurred');
+        }
       } finally {
         setLoading(false);
       }
@@ -92,11 +102,16 @@ const Exercise: FC = () => {
       const result = await response.json();
       if (response.ok && result.status === 1) {
         navigate('/calendar', { state: { message: '運動の状態が更新されました' } });
+        window.location.reload();
       } else {
         throw new Error(result.detail || '運動の状態更新に失敗しました');
       }
-    } catch (e) {
-      setError(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError('Unknown error occurred');
+      }
     }
   };
 

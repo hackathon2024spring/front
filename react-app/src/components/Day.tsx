@@ -8,9 +8,10 @@ interface DayProps {
   day: dayjs.Dayjs;
   rowIdx: number;
   currentMonthIndex: number;
+  exerciseDone: boolean;
 }
 
-const Day: FC<DayProps> = ({ day, currentMonthIndex }) => {
+const Day: FC<DayProps> = ({ day, currentMonthIndex, exerciseDone }) => {
   const navigate = useNavigate();
 
   const isCurrentMonth = day.month() === currentMonthIndex;
@@ -32,9 +33,6 @@ const Day: FC<DayProps> = ({ day, currentMonthIndex }) => {
 
   const dayNumberClasses = `text-lg font-bold my-1 ${getCurrentDayClass()} ${dayClasses} ${nonCurrentMonthClass}`;
 
-  // 花丸を表示する条件を定義
-  const showHanamaru = [15, 17, 18].includes(day.date());
-
   const handleExerciseClick = () => {
     navigate('/exercise', { state: { date: day.format("YYYY-MM-DD") } });
   };
@@ -50,7 +48,7 @@ const Day: FC<DayProps> = ({ day, currentMonthIndex }) => {
         onClick={handleExerciseClick}
         className="bg-customSkyblue p-1 flex-1 cursor-pointer flex flex-col items-center justify-center relative"
       >
-        {showHanamaru && <img src={Hanamaru} alt="花丸" className="absolute bottom-0 mb-0 w-20 h-20" />}
+        {exerciseDone && <img src={Hanamaru} alt="花丸" className="absolute bottom-0 mb-0 w-20 h-20" />}
       </div>
     </div>
   );
