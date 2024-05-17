@@ -102,7 +102,6 @@ const Exercise: FC = () => {
       const result = await response.json();
       if (response.ok && result.status === 1) {
         navigate('/calendar', { state: { message: '運動の状態が更新されました' } });
-        window.location.reload();
       } else {
         throw new Error(result.detail || '運動の状態更新に失敗しました');
       }

@@ -7,11 +7,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const Calendar: FC = () => {
   const [currentMonth, setCurrentMonth] = useState(getMonth());
-  const { monthIndex } = useContext(GlobalContext);
+  const { monthIndex, setMonthIndex } = useContext(GlobalContext);
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = location;
   const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    // localStorageからmonthIndexを読み込む
+    const savedMonthIndex = localStorage.getItem('monthIndex');
+    if (savedMonthIndex !== null) {
+      setMonthIndex(parseInt(savedMonthIndex, 10));
+    }
+  }, [setMonthIndex]);
 
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));
@@ -21,7 +29,7 @@ const Calendar: FC = () => {
     if (state?.message) {
       setMessage(state.message);
 
-      // Remove the message from the history state to prevent it from showing on reload
+      // 履歴状態からメッセージを削除してリロード時に表示されないようにする
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [state, navigate, location.pathname]);
@@ -30,11 +38,13 @@ const Calendar: FC = () => {
     if (message) {
       const timer = setTimeout(() => {
         setMessage(null);
-      }, 3000);
-
-      return () => clearTimeout(timer); // クリーンアップ
+        // monthIndexをlocalStorageに保存
+        localStorage.setItem('monthIndex', monthIndex.toString());
+        window.location.reload();
+      }, 2000);
+      return () => clearTimeout(timer);
     }
-  }, [message]);
+  }, [message, monthIndex]);
 
   return (
     <>
