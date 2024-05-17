@@ -1,14 +1,16 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
 import GlobalContext from '../context/GlobalContext';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
+import { BaseURL } from '../utilities/base_url';
 
 dayjs.locale('ja');
 
 const CalendarHeader: FC = () => {
   const { monthIndex, setMonthIndex } = useContext(GlobalContext);
-  const navigate = useNavigate(); // Create a navigate function using the useNavigate hook
+  const navigate = useNavigate();
+  const [exerciseDaysCount, setExerciseDaysCount] = useState<number>(0);
 
   const handlePrevMonth = () => {
     setMonthIndex(monthIndex - 1);
@@ -19,12 +21,56 @@ const CalendarHeader: FC = () => {
   };
 
   const handleUserClick = () => {
-    navigate('/user'); // Function to navigate to settings page
+    navigate('/user');
   };
 
   const handleSettingsClick = () => {
-    navigate('/exercises_setting'); // Function to navigate to settings page
+    navigate('/exercises_setting');
   };
+
+  const handleSignoutClick = async () => {
+    try {
+      const response = await fetch(`${BaseURL()}/signout`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        navigate('/signup');
+      } else {
+        console.error('サインアウトに失敗しました');
+      }
+    } catch (error) {
+      console.error('サインアウト中にエラーが発生しました', error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchExerciseData = async () => {
+      try {
+        const year = dayjs().year();
+        const month = monthIndex + 1;
+        const response = await fetch(`${BaseURL()}/calendars/${year}/${month}`, {
+          method: 'GET',
+          headers: {
+            'accept': 'application/json',
+          },
+        });
+        const result = await response.json();
+        if (response.ok && result.status === 1) {
+          const exerciseDays = result.data.filter((day: any) => day.exerciseDone).length;
+          setExerciseDaysCount(exerciseDays);
+        } else {
+          console.error('データの取得に失敗しました:', result.detail);
+        }
+      } catch (error) {
+        console.error('データの取得中にエラーが発生しました', error);
+      }
+    };
+
+    fetchExerciseData();
+  }, [monthIndex]);
 
   const currentMonthNameEnglish = dayjs(new Date(dayjs().year(), monthIndex)).locale('en').format('MMMM');
   const currentYearAndMonthJapanese = dayjs(new Date(dayjs().year(), monthIndex)).format('YYYY M月');
@@ -33,19 +79,21 @@ const CalendarHeader: FC = () => {
 
   return (
     <div className="flex flex-col">
-       <div className="absolute right-[100px]">
-          <img src="/images/icon-account.png" alt="Account" className="w-10 h-10 mt-1" onClick={handleUserClick} />
-        </div>
-        <div className="absolute right-[50px]">
-          <img src="/images/icon-settings.png" alt="Settings" className="w-8 h-8 mt-2" onClick={handleSettingsClick} />
-        </div>
+      <div className="absolute right-[150px]">
+        <img src="/images/icon-account.png" alt="Account" className="w-10 h-10 mt-1" onClick={handleUserClick} />
+      </div>
+      <div className="absolute right-[100px]">
+        <img src="/images/icon-settings.png" alt="Settings" className="w-8 h-8 mt-2" onClick={handleSettingsClick} />
+      </div>
+      <div className="absolute right-[45px]">
+        <img src="/images/icon-signout.png" alt="Signout" className="w-10 h-10 mt-1" onClick={handleSignoutClick} />
+      </div>
       <div className="flex justify-between items-center p-0">
         <div className="recommendation-container">
-          <span className="recommendation-text">今日のおすすめ</span>
-          <span className="activity-text">✨足踏み運動をする✨</span>
+          <span className="activity-text">今月は✨{exerciseDaysCount}日✨運動しています！</span>
+          <span className="activity-text">すごい！</span>
         </div>
       </div>
-
 
       <header className="flex items-center justify-between">
         <button onClick={handlePrevMonth} className="triangle-left" aria-label="前の月"></button>
