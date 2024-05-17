@@ -9,6 +9,12 @@ interface Exercise {
   done: boolean;
 }
 
+interface FetchedExercise {
+  exerciseId: number;
+  exerciseName: string;
+  exerciseDone: boolean;
+}
+
 const Exercise: FC = () => {
   const [activeStates, setActiveStates] = useState<{ [key: number]: boolean }>({});
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -31,7 +37,7 @@ const Exercise: FC = () => {
         });
         const result = await response.json();
         if (response.ok && result.status === 1) {
-          const exercisesData = result.data.map((ex: any) => ({
+          const exercisesData = result.data.map((ex: FetchedExercise) => ({
             exerciseId: ex.exerciseId,
             exerciseName: ex.exerciseName,
             done: ex.exerciseDone,
@@ -46,8 +52,12 @@ const Exercise: FC = () => {
         } else {
           throw new Error(result.detail || 'データの通信に失敗しました。');
         }
-      } catch (e) {
-        setError(e.message);
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError('Unknown error occurred');
+        }
       } finally {
         setLoading(false);
       }
@@ -95,8 +105,12 @@ const Exercise: FC = () => {
       } else {
         throw new Error(result.detail || '運動の状態更新に失敗しました');
       }
-    } catch (e) {
-      setError(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError('Unknown error occurred');
+      }
     }
   };
 
@@ -113,16 +127,16 @@ const Exercise: FC = () => {
             </div>
             {exercises.map((exercise) => (
               <div key={exercise.exerciseId} className="flex justify-center">
-                <div 
+                <div
                   className={`w-2/3 flex flex-row justify-start rounded-full items-center mb-3 hover:cursor-pointer ${activeStates[exercise.exerciseId] ? 'bg-yellow-400' : 'bg-white'}`}
                   onClick={() => handleToggleActive(exercise.exerciseId)}
                 >
                   <div className="inline-flex items-center mr-10">
                     <label className="relative flex items-center p-3 rounded-full cursor-pointer"
-                          htmlFor={`customStyle-${exercise.exerciseId}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}>
+                      htmlFor={`customStyle-${exercise.exerciseId}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}>
                       <input type="checkbox"
                         checked={!!activeStates[exercise.exerciseId]}
                         onChange={() => handleToggleActive(exercise.exerciseId)}

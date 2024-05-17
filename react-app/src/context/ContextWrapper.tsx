@@ -1,76 +1,62 @@
 import dayjs from "dayjs";
-import { useState, ReactNode, FC, useReducer, useEffect } from "react";
-import GlobalContext, { CalendarEvent } from "./GlobalContext";
+import { useState, ReactNode, FC, useEffect, useRef } from "react";
+import GlobalContext, { DayEvent } from "./GlobalContext";
+import { BaseURL } from "../utilities/base_url";
+
 
 interface Props {
   children: ReactNode;
 }
-const saveEventsReducer = (
-  state: CalendarEvent[],
-  action: { type: string; payload: CalendarEvent }
-) => {
-  switch (action.type) {
-    case "push":
-      return [...state, action.payload];
-    case "update":
-      return state.map((evt) =>
-        evt.id === action.payload.id ? action.payload : evt
-      );
-    case "delete":
-      return state.filter((evt) => evt.id !== action.payload.id);
-    default:
-      return state;
-  }
-};
 
-const initEvents = () => {
-  const storageEvents = localStorage.getItem("savedEvents");
-  console.log(storageEvents);
-  const parsedEvents = storageEvents ? JSON.parse(storageEvents) : [];
-  return parsedEvents;
-};
+interface FetchData {
+  status: number;
+  data: DayEvent[];
+}
 
-const ContextWrapper: FC<Props> = (props) => {
+const ContextWrapper: FC<Props> = ({ children }) => {
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
-  const [daySelected, setDaySelected] = useState(dayjs());
-  const [showEventModal, setShowEventModal] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
-    null
-  );
-  const [savedEvents, dispatchCalEvent] = useReducer(
-    saveEventsReducer,
-    [],
-    initEvents
-  );
+  const [dayEvents, setDayEvents] = useState<DayEvent[] | null>(null);
+  const prevMonthIndexRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // 以下構文でlocalStorageに保存
-    // localStorage.setItem('key', 'value')
-    localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
-  }, [savedEvents]);
+    if (prevMonthIndexRef.current !== monthIndex) {
+      const currentYearAndMonth = dayjs(new Date(dayjs().year(), monthIndex)).format('YYYY M');
+      const year = currentYearAndMonth.split(' ')[0];
+      const month = currentYearAndMonth.split(' ')[1];
+      const fetchDayEvents = async () => {
+        try {
+          const response = await fetch(`${BaseURL()}/calendars/${year}/${month}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const fetchData: FetchData = await response.json();
+          if (fetchData.status == 1) {
+            setDayEvents(fetchData.data);
+          } else {
+            console.error('Error fetching data:', fetchData);
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
 
-  useEffect(() => {
-    if (!showEventModal) {
-      setSelectedEvent(null);
+      fetchDayEvents()
     }
-  }, [showEventModal]);
+    prevMonthIndexRef.current = monthIndex;
+  }, [monthIndex]);
 
   return (
     <GlobalContext.Provider
       value={{
         monthIndex,
         setMonthIndex,
-        daySelected,
-        setDaySelected,
-        showEventModal,
-        setShowEventModal,
-        selectedEvent,
-        setSelectedEvent,
-        dispatchCalEvent,
-        savedEvents,
+        dayEvents,
+        setDayEvents,
       }}
     >
-      {props.children}
+      {children}
     </GlobalContext.Provider>
   );
 };

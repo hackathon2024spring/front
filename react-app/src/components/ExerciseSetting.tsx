@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CheckBox from './CheckBox';
 import { BaseURL } from '../utilities/base_url';
@@ -26,16 +26,22 @@ const ExerciseSetting: FC = () => {
         });
         const result = await response.json();
         if (response.ok && result.status === 1) {
-          setExercises(result.data.map((ex: any) => ({
-            exerciseId: ex.exerciseId,
-            exerciseName: ex.exerciseName,
-            selected: ex.exerciseSelected,
-          })));
+          setExercises(result.data.map((ex: Exercise) => {
+            return {
+              exerciseId: ex.exerciseId,
+              exerciseName: ex.exerciseName,
+              selected: ex.selected,
+            };
+          }));
         } else {
           throw new Error(result.detail || 'データの通信に失敗しました。');
         }
-      } catch (e) {
-        setError(e.message);
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError('An unknown error occurred.');
+        }
       } finally {
         setLoading(false);
       }
@@ -76,8 +82,12 @@ const ExerciseSetting: FC = () => {
         throw new Error('選択した設定の保存に失敗しました。');
       }
       navigate('/calendar');  // 成功後のリダイレクト
-    } catch (error) {
-      setError(error.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError('An unknown error occurred.');
+      }
     }
   };
 
@@ -112,7 +122,7 @@ const ExerciseSetting: FC = () => {
         </div>
       </form>
     </div>
-  );   
+  );
 };
 
 export default ExerciseSetting;
