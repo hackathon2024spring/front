@@ -3,12 +3,11 @@ import { getMonth } from "../Util";
 import CalendarHeader from "../components/CalendarHeader";
 import Month from "../components/Month";
 import GlobalContext from "../context/GlobalContext";
-import EventModal from "../components/EventModal";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Calendar: FC = () => {
   const [currentMonth, setCurrentMonth] = useState(getMonth());
-  const { monthIndex, showEventModal } = useContext(GlobalContext);
+  const { monthIndex } = useContext(GlobalContext);
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = location;
@@ -44,7 +43,6 @@ const Calendar: FC = () => {
           {message}
         </div>
       )}
-      {showEventModal && <EventModal />}
       <div className="h-screen flex flex-col items-center bg-[#9debf6] font-roundedMplus">
         <CalendarHeader />
         <WeekDaysLabels />
@@ -62,9 +60,8 @@ const WeekDaysLabels: FC = () => {
       {weekDays.map((day, index) => (
         <div
           key={day}
-          className={`py-0 ${
-            index === 0 ? 'text-red-500' : index === 6 ? 'text-blue-500' : 'text-customBrown'
-          }`}
+          className={`py-0 ${index === 0 ? 'text-red-500' : index === 6 ? 'text-blue-500' : 'text-customBrown'
+            }`}
         >
           {day}
         </div>
