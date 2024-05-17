@@ -37,7 +37,7 @@ const CalendarHeader: FC = () => {
         },
       });
       if (response.ok) {
-        navigate('/signup');
+        navigate('/login', { state: { message: 'サインアウトしました' } });
       } else {
         console.error('サインアウトに失敗しました');
       }
