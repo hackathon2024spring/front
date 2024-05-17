@@ -45,7 +45,7 @@ const Day: FC<DayProps> = ({ day, currentMonthIndex }) => {
   const showHanamaru = [15, 17, 18].includes(day.date());
 
   const handleExerciseClick = () => {
-    navigate('/exercise');
+    navigate('/exercise', { state: { date: day.format("YYYY-MM-DD") } });
   };
 
   return (
