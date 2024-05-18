@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CheckBox from './CheckBox';
 import { BaseURL } from '../utilities/base_url';
@@ -26,22 +26,16 @@ const ExerciseSetting: FC = () => {
         });
         const result = await response.json();
         if (response.ok && result.status === 1) {
-          setExercises(result.data.map((ex: Exercise) => {
-            return {
-              exerciseId: ex.exerciseId,
-              exerciseName: ex.exerciseName,
-              selected: ex.selected,
-            };
-          }));
+          setExercises(result.data.map((ex: any) => ({
+            exerciseId: ex.exerciseId,
+            exerciseName: ex.exerciseName,
+            selected: ex.exerciseSelected,
+          })));
         } else {
           throw new Error(result.detail || 'データの通信に失敗しました。');
         }
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          setError(e.message);
-        } else {
-          setError('An unknown error occurred.');
-        }
+      } catch (e) {
+        setError(e.message);
       } finally {
         setLoading(false);
       }
@@ -82,12 +76,8 @@ const ExerciseSetting: FC = () => {
         throw new Error('選択した設定の保存に失敗しました。');
       }
       navigate('/calendar');  // 成功後のリダイレクト
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message);
-      } else {
-        setError('An unknown error occurred.');
-      }
+    } catch (error) {
+      setError(error.message);
     }
   };
 
@@ -96,14 +86,14 @@ const ExerciseSetting: FC = () => {
 
   return (
     <div className="flex justify-center items-center bg-cyan-200 min-h-screen">
-      <form className="w-full max-w-2xl p-4 h-3/4">
-        <div className="container mx-auto flex flex-col text-gray-500 bg-cyan-50 rounded-lg p-10 h-full"> 
+      <form className="w-full max-w-md p-4" onSubmit={handleSubmit}> {/* max-w-mdで幅を固定 */}
+        <div className="container mx-auto flex flex-col text-gray-500 bg-cyan-50 rounded-lg p-8">
           <div className="text-center text-2xl font-bold mb-10 mt-10">
             運動の設定
           </div>
           {exercises.map((exercise) => (
-            <div key={exercise.exerciseId} className="flex flex-row justify-between items-center mb-5 px-20">
-              <div className="text-xl font-bold w-3/5 text-left">
+            <div key={exercise.exerciseId} className="flex flex-row justify-between items-center mb-5 px-10">
+              <div className="w-3/5 text-left text-xl font-bold">
                 {exercise.exerciseName}
               </div>
               <div className="w-2/5 flex justify-center">
@@ -112,17 +102,17 @@ const ExerciseSetting: FC = () => {
             </div>
           ))}
           <div className="flex justify-center">
-            <button type="button" onClick={handleBack} className="font-bold w-1/4 focus:outline-none bg-cyan-200 hover:bg-cyan-300 p-3 rounded-lg mt-5 mb-10 mx-10">
+            <button type="button" onClick={handleBack} className="font-bold w-1/4 focus:outline-none bg-cyan-200 hover:bg-cyan-300 p-3 rounded-lg mt-3 mb-10 mx-10">
               戻る
             </button>
-            <button type="submit" className="font-bold w-1/4 focus:outline-none bg-yellow-400 hover:bg-yellow-500 p-3 rounded-lg mt-5 mb-10 mx-10">
+            <button type="submit" className="font-bold w-1/4 focus:outline-none bg-yellow-400 hover:bg-yellow-500 p-3 rounded-lg mt-3 mb-10 mx-10">
               決定
             </button>
           </div>
         </div>
       </form>
     </div>
-  );
+  );   
 };
 
 export default ExerciseSetting;
