@@ -47,6 +47,10 @@ const ContextWrapper: FC<Props> = ({ children }) => {
     prevMonthIndexRef.current = monthIndex;
   }, [monthIndex]);
 
+  useEffect(() => {
+    localStorage.setItem('monthIndex', monthIndex.toString());
+  }, [monthIndex]);
+
   return (
     <GlobalContext.Provider
       value={{

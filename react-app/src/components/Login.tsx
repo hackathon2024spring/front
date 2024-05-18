@@ -1,24 +1,25 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BaseURL } from "../utilities/base_url";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import TitleIcon from "/chocolog.svg";
-
 
 type LoginForm = {
   email: string;
   password: string;
-}
+};
 
 const Login: FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
+  const [message, setMessage] = useState(state?.message || "");
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginForm>();
 
-  const [message, setMessage] = useState(""); // メッセージ表示用の状態
   const mailadressCheck = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
   const onSubmit: SubmitHandler<LoginForm> = async (data) => {
@@ -37,19 +38,31 @@ const Login: FC = () => {
       });
       const responseData = await response.json(); // レスポンスのJSONを解析
       if (response.ok) {
-        // setMessage("ログインに成功しました。"); // 成功メッセージを設定
-        navigate("/calendar")
+        navigate("/calendar", { state: { message: 'ログインしました' } });
       } else {
         setMessage(responseData.detail || "ログインに失敗しました。"); // 失敗メッセージを設定
       }
     } catch (error) {
       console.log(error);
-      //   setMessage("通信エラーが発生しました。"); // エラーメッセージを設定
+      setMessage("通信エラーが発生しました。");
     }
   };
 
+  useEffect(() => {
+    if (state?.message) {
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
+    }
+  }, [state?.message]);
+
   return (
     <>
+      {message && (
+        <div className="flash-message h-16 bg-cyan-100 flex items-center justify-center text-2xl font-roundedMplus font-bold">
+          {message}
+        </div>
+      )}
       <div className="flex justify-center min-h-screen bg-[#74ecff]">
         <div className="w-90% max-w-md rounded-2xl bg-[#74ecff]">
           <div className="text-center text-2xl font-bold">
@@ -61,7 +74,6 @@ const Login: FC = () => {
               style={{ color: "red", marginBottom: "0rem", display: 'block', marginLeft: 'auto', marginRight: 'auto' }} // This centers the image
             />
           </div>
-
           <h1 className="text-2xl text-center mb-10 text-customBrown font-bold font-roundedMplus">
             ログイン
           </h1>
@@ -118,12 +130,6 @@ const Login: FC = () => {
                 ログイン
               </button>
             </div>
-            <div className="text-center font-bold mt-10 mb-10">
-              {message && (
-                <div> {message}  </div>
-              )}
-            </div>
-
           </form>
         </div>
       </div>

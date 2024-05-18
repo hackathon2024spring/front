@@ -67,8 +67,8 @@
 .activity-text {
   top: 15%;
   left:0%;
-  font-size: 1.5em; 
-  margin-left: 12em;
+  font-size: 1.3em; 
+  margin-left: 16em;
   margin-bottom: 0.5em;
 }
 
@@ -140,4 +140,3 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
