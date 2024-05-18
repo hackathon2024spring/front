@@ -96,26 +96,26 @@ const ExerciseSetting: FC = () => {
 
   return (
     <div className="flex justify-center items-center bg-cyan-200 min-h-screen">
-      <form className="w-1/3" onSubmit={handleSubmit}>
-        <div className="container mx-auto flex flex-col text-gray-500 bg-cyan-50 rounded-lg m-10">
+      <form className="w-full max-w-2xl p-4 h-3/4">
+        <div className="container mx-auto flex flex-col text-gray-500 bg-cyan-50 rounded-lg p-10 h-full"> 
           <div className="text-center text-2xl font-bold mb-10 mt-10">
             運動の設定
           </div>
           {exercises.map((exercise) => (
-            <div key={exercise.exerciseId} className="flex flex-row justify-between items-center mb-5" style={{ paddingLeft: '5rem', paddingRight: '5rem' }}>
-              <div style={{ width: '60%', textAlign: 'left' }} className="text-xl font-bold">
+            <div key={exercise.exerciseId} className="flex flex-row justify-between items-center mb-5 px-20">
+              <div className="text-xl font-bold w-3/5 text-left">
                 {exercise.exerciseName}
               </div>
-              <div style={{ width: '40%', display: 'flex', justifyContent: 'center' }}>
+              <div className="w-2/5 flex justify-center">
                 <CheckBox isChecked={exercise.selected} onChange={() => handleToggle(exercise.exerciseId)} />
               </div>
             </div>
           ))}
           <div className="flex justify-center">
-            <button type="button" onClick={handleBack} className="font-bold w-1/4 focus:outline-none bg-cyan-200 hover:bg-cyan-300 p-3 rounded-lg mb-10 mx-10">
+            <button type="button" onClick={handleBack} className="font-bold w-1/4 focus:outline-none bg-cyan-200 hover:bg-cyan-300 p-3 rounded-lg mt-5 mb-10 mx-10">
               戻る
             </button>
-            <button type="submit" className="font-bold w-1/4 focus:outline-none bg-yellow-400 hover:bg-yellow-500 p-3 rounded-lg mb-10 mx-10">
+            <button type="submit" className="font-bold w-1/4 focus:outline-none bg-yellow-400 hover:bg-yellow-500 p-3 rounded-lg mt-5 mb-10 mx-10">
               決定
             </button>
           </div>
