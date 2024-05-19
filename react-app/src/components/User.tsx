@@ -8,7 +8,7 @@ interface User {
 }
 
 const User: FC = () => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -45,16 +45,29 @@ const User: FC = () => {
     fetchUser();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
   const handleBack = () => {
     navigate('/calendar');
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center bg-[#9debf6] min-h-screen">
+        <div className="text-center text-xl text-gray-700">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center bg-[#9debf6] min-h-screen">
+        <div className="text-center text-xl text-red-700">{error}</div>
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="flex justify-center items-center bg-cyan-200 min-h-screen">
+      <div className="flex justify-center items-center bg-[#9debf6] min-h-screen">
         <form className="w-full max-w-xl p-4 h-3/4"> 
           <div className="container mx-auto flex flex-col text-gray-500 bg-cyan-50 rounded-lg p-16 h-full"> 
             <div className="text-center text-2xl font-bold mb-10 mt-10">
@@ -66,7 +79,7 @@ const User: FC = () => {
                   ユーザー名
                 </div>
                 <div className="bg-gray-200 text-xl p-2.5 rounded-lg">
-                  {user && user.username}
+                  {user?.username}
                 </div>
               </div>
             </div>
@@ -76,7 +89,7 @@ const User: FC = () => {
                   メールアドレス
                 </div>
                 <div className="bg-gray-200 text-xl p-2.5 rounded-lg">
-                  {user && user.email}
+                  {user?.email}
                 </div>
               </div>
             </div>
