@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap');
 
+.icon {
+  @apply relative cursor-pointer;
+}
+
+.icon:hover::after {
+  @apply absolute bottom-10 left-1/2 transform -translate-x-1/2 w-max bg-gray-700 text-white text-xs rounded-md py-1 px-2 opacity-0 group-hover:opacity-100;
+  content: attr(data-tooltip);
+  z-index: 10;
+  opacity: 1;
+}
+
+
 .grid.grid-cols-7.text-center.border-b.font-roundedMplus {
   margin-top: 0; 
   background-color: #9debf6; 
@@ -45,7 +57,7 @@
   background: url('/images/icon-recommend.png') no-repeat center center;
   background-size: contain;
   width: 100%; 
-  height: 106px;
+  height: 130px;
   position: relative;
   margin-top: 3em;
   z-index: 1;
@@ -66,7 +78,7 @@
 
 .activity-text {
   top: 15%;
-  left:0%;
+  left:4%;
   font-size: 1.3em; 
   margin-left: 16em;
   margin-bottom: 0.5em;

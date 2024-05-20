@@ -4,6 +4,7 @@ import 'dayjs/locale/ja';
 import GlobalContext from '../context/GlobalContext';
 import { useNavigate } from 'react-router-dom';
 import { BaseURL } from '../utilities/base_url';
+import '../styles.css';  // カスタムCSSファイルをインポート
 
 dayjs.locale('ja');
 
@@ -79,30 +80,47 @@ const CalendarHeader: FC = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="absolute right-[150px]">
-        <img src="/images/icon-account.png" alt="Account" className="w-10 h-10 mt-1" onClick={handleUserClick} />
+      <div className="absolute right-[150px] group">
+        <img src="/images/icon-account.png" alt="Account" className="w-10 h-10 mt-1 cursor-pointer" onClick={handleUserClick} />
+        <span className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md py-1 px-2 opacity-0 group-hover:opacity-100">
+          アカウント情報
+        </span>
       </div>
-      <div className="absolute right-[100px]">
-        <img src="/images/icon-settings.png" alt="Settings" className="w-8 h-8 mt-2" onClick={handleSettingsClick} />
+      <div className="absolute right-[100px] group">
+        <img src="/images/icon-settings.png" alt="Settings" className="w-8 h-8 mt-2 cursor-pointer" onClick={handleSettingsClick} />
+        <span className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md py-1 px-2 opacity-0 group-hover:opacity-100">
+          運動の設定
+        </span>
       </div>
-      <div className="absolute right-[45px]">
-        <img src="/images/icon-signout.png" alt="Signout" className="w-10 h-10 mt-1" onClick={handleSignoutClick} />
+      <div className="absolute right-[45px] group">
+        <img src="/images/icon-signout.png" alt="Signout" className="w-10 h-10 mt-1 cursor-pointer" onClick={handleSignoutClick} />
+        <span className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md py-1 px-2 opacity-0 group-hover:opacity-100">
+          サインアウト
+        </span>
       </div>
       <div className="flex justify-between items-center p-0">
         <div className="recommendation-container">
-          <span className="activity-text">今月は✨{exerciseDaysCount}日✨運動しています！</span>
+          <span className="activity-text">今月は&nbsp;✨&nbsp;<span className="scale-150 inline-block">&nbsp;{exerciseDaysCount}日&nbsp;</span>&nbsp;✨&nbsp;運動しています！</span>
           <span className="activity-text">すごい！</span>
         </div>
       </div>
 
       <header className="flex items-center justify-between">
-        <button onClick={handlePrevMonth} className="triangle-left" aria-label="前の月"></button>
+        <button onClick={handlePrevMonth} className="triangle-left cursor-pointer" aria-label="前の月">
+          <span className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md py-1 px-2 opacity-0 group-hover:opacity-100">
+            前の月
+          </span>
+        </button>
         <div className="flex-grow flex justify-center items-center space-x-3">
           <span className="text-xl font-extrabold">{year}</span>
           <span className="text-4xl font-extrabold">{monthJapanese}</span>
           <span className="text-xl font-extrabold">{currentMonthNameEnglish}</span>
         </div>
-        <button onClick={handleNextMonth} className="triangle-right" aria-label="次の月"></button>
+        <button onClick={handleNextMonth} className="triangle-right cursor-pointer" aria-label="次の月">
+          <span className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md py-1 px-2 opacity-0 group-hover:opacity-100">
+            次の月
+          </span>
+        </button>
       </header>
     </div>
   );

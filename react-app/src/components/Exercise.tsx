@@ -114,21 +114,34 @@ const Exercise: FC = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center bg-[#9debf6] min-h-screen">
+        <div className="text-center text-xl text-gray-700">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center bg-[#9debf6] min-h-screen">
+        <div className="text-center text-xl text-red-700">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className="flex justify-center items-center bg-cyan-200 min-h-screen">
-        <form className="w-1/3" onSubmit={handleSubmit}>
-          <div className="container mx-auto flex flex-col text-gray-500 bg-cyan-50 rounded-lg m-10">
+      <div className="flex justify-center items-center bg-[#9debf6] min-h-screen">
+        <form className="w-full max-w-lg p-4" onSubmit={handleSubmit}> {/* max-w-lgで幅を固定 */}
+          <div className="container mx-auto flex flex-col text-gray-500 bg-cyan-50 rounded-lg p-8">
             <div className="text-center text-2xl font-bold mb-10 mt-10">
               {formattedDate}の運動
             </div>
             {exercises.map((exercise) => (
               <div key={exercise.exerciseId} className="flex justify-center">
                 <div
-                  className={`w-2/3 flex flex-row justify-start rounded-full items-center mb-3 hover:cursor-pointer ${activeStates[exercise.exerciseId] ? 'bg-yellow-400' : 'bg-white'}`}
+                  className={`w-full max-w-md flex flex-row justify-start rounded-full items-center mb-3 hover:cursor-pointer ${activeStates[exercise.exerciseId] ? 'bg-yellow-400' : 'bg-white'}`}
                   onClick={() => handleToggleActive(exercise.exerciseId)}
                 >
                   <div className="inline-flex items-center mr-10">

@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CheckBox from './CheckBox';
 import { BaseURL } from '../utilities/base_url';
@@ -26,16 +26,22 @@ const ExerciseSetting: FC = () => {
         });
         const result = await response.json();
         if (response.ok && result.status === 1) {
-          setExercises(result.data.map((ex: any) => ({
-            exerciseId: ex.exerciseId,
-            exerciseName: ex.exerciseName,
-            selected: ex.exerciseSelected,
-          })));
+          setExercises(result.data.map((ex: Exercise) => {
+            return {
+              exerciseId: ex.exerciseId,
+              exerciseName: ex.exerciseName,
+              selected: ex.selected,
+            };
+          }));
         } else {
           throw new Error(result.detail || 'データの通信に失敗しました。');
         }
-      } catch (e) {
-        setError(e.message);
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError('An unknown error occurred.');
+        }
       } finally {
         setLoading(false);
       }
@@ -76,16 +82,33 @@ const ExerciseSetting: FC = () => {
         throw new Error('選択した設定の保存に失敗しました。');
       }
       navigate('/calendar');  // 成功後のリダイレクト
-    } catch (error) {
-      setError(error.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError('An unknown error occurred.');
+      }
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center bg-[#9debf6] min-h-screen">
+        <div className="text-center text-xl text-gray-700">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center bg-[#9debf6] min-h-screen">
+        <div className="text-center text-xl text-red-700">{error}</div>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex justify-center items-center bg-cyan-200 min-h-screen">
+    <div className="flex justify-center items-center bg-[#9debf6] min-h-screen">
       <form className="w-full max-w-md p-4" onSubmit={handleSubmit}> {/* max-w-mdで幅を固定 */}
         <div className="container mx-auto flex flex-col text-gray-500 bg-cyan-50 rounded-lg p-8">
           <div className="text-center text-2xl font-bold mb-10 mt-10">
@@ -112,7 +135,7 @@ const ExerciseSetting: FC = () => {
         </div>
       </form>
     </div>
-  );   
+  );
 };
 
 export default ExerciseSetting;
