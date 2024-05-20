@@ -8,6 +8,11 @@ interface Exercise {
   exerciseName: string;
   selected: boolean;
 }
+interface ExerciseSetting {
+  exerciseId: number;
+  exerciseName: string;
+  exerciseSelected: boolean;
+}
 
 const ExerciseSetting: FC = () => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -26,13 +31,11 @@ const ExerciseSetting: FC = () => {
         });
         const result = await response.json();
         if (response.ok && result.status === 1) {
-          setExercises(result.data.map((ex: Exercise) => {
-            return {
-              exerciseId: ex.exerciseId,
-              exerciseName: ex.exerciseName,
-              selected: ex.selected,
-            };
-          }));
+          setExercises(result.data.map((ex: ExerciseSetting) => ({
+            exerciseId: ex.exerciseId,
+            exerciseName: ex.exerciseName,
+            selected: ex.exerciseSelected,
+          })));
         } else {
           throw new Error(result.detail || 'データの通信に失敗しました。');
         }
