@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import Hanamaru from '../../public/hanamaru.svg';
 
-
 interface DayProps {
   day: dayjs.Dayjs;
   rowIdx: number;
@@ -38,7 +37,7 @@ const Day: FC<DayProps> = ({ day, currentMonthIndex, exerciseDone }) => {
   };
 
   return (
-    <div className="border border-borderDivider flex flex-col rounded-none overflow-hidden">
+    <div className="border border-borderDivider flex flex-col rounded-none overflow-hidden h-30 min-h-[110px]"> {/* 高さを固定、最小高さを設定 */}
       <header className="bg-customSkyblue p-1 flex justify-center">
         <p className={dayNumberClasses}>
           {day.format("D")}
