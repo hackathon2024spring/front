@@ -14,7 +14,6 @@ const Calendar: FC = () => {
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    // localStorageからmonthIndexを読み込む
     const savedMonthIndex = localStorage.getItem('monthIndex');
     if (savedMonthIndex !== null) {
       setMonthIndex(parseInt(savedMonthIndex, 10));
@@ -28,8 +27,6 @@ const Calendar: FC = () => {
   useEffect(() => {
     if (state?.message) {
       setMessage(state.message);
-
-      // 履歴状態からメッセージを削除してリロード時に表示されないようにする
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [state, navigate, location.pathname]);
@@ -38,7 +35,6 @@ const Calendar: FC = () => {
     if (message) {
       const timer = setTimeout(() => {
         setMessage(null);
-        // monthIndexをlocalStorageに保存
         localStorage.setItem('monthIndex', monthIndex.toString());
         window.location.reload();
       }, 2000);
@@ -53,7 +49,7 @@ const Calendar: FC = () => {
           {message}
         </div>
       )}
-      <div className="h-screen flex flex-col items-center bg-[#9debf6] font-roundedMplus">
+      <div className="h-screen flex flex-col items-center bg-[#9debf6] font-roundedMplus"> {/* Apply background color here */}
         <CalendarHeader />
         <WeekDaysLabels />
         <Month month={currentMonth} currentMonthIndex={monthIndex} />
@@ -66,7 +62,7 @@ const WeekDaysLabels: FC = () => {
   const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
   return (
-    <div className="flex justify-center grid grid-cols-7 text-center border-b font-roundedMplus font-bold w-2/3">
+    <div className="flex justify-center grid grid-cols-7 text-center border-b bg-[#9debf6] font-roundedMplus font-bold w-2/3 mt-0 pt-4">
       {weekDays.map((day, index) => (
         <div
           key={day}
