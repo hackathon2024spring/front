@@ -49,7 +49,7 @@ const Calendar: FC = () => {
           {message}
         </div>
       )}
-      <div className="h-screen flex flex-col items-center bg-[#9debf6] font-roundedMplus"> {/* Apply background color here */}
+      <div className="h-full flex flex-col items-center bg-[#9debf6] font-roundedMplus"> {/* Apply background color here */}
         <CalendarHeader />
         <WeekDaysLabels />
         <Month month={currentMonth} currentMonthIndex={monthIndex} />
