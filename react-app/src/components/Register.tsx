@@ -4,20 +4,20 @@ import { BaseURL } from "../utilities/base_url";
 import { SubmitHandler, useForm } from "react-hook-form";
 import TitleIcon from "/chocolog.svg";
 
-type SignupForm = {
+type RegisterForm = {
   username: string;
   email: string;
   password: string;
   passwordConfirm: string;
 };
 
-const Signup: FC = () => {
+const Register: FC = () => {
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<SignupForm>();
+  } = useForm<RegisterForm>();
   const [message, setMessage] = useState(""); // メッセージ表示用の状態
 
   const password = watch("password"); // 最初のパスワードフィールドの値を監視
@@ -25,11 +25,11 @@ const Signup: FC = () => {
   const mailadressCheck = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
   const usernameCheck = /^[a-zA-Z0-9_.-]{3,16}$/;
 
-  const onSubmit: SubmitHandler<SignupForm> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterForm> = async (data) => {
     setMessage(""); // 送信前にメッセージをクリア
 
     try {
-      const response = await fetch(`${BaseURL()}/signup`, {
+      const response = await fetch(`${BaseURL()}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -170,4 +170,4 @@ const Signup: FC = () => {
   );
 };
 
-export default Signup;
+export default Register;

@@ -7,6 +7,11 @@ import { BaseURL } from '../utilities/base_url';
 
 dayjs.locale('ja');
 
+interface DayProps {
+  day: string;
+  exerciseDone: boolean;
+}
+
 const CalendarHeader: FC = () => {
   const { monthIndex, setMonthIndex } = useContext(GlobalContext);
   const navigate = useNavigate();
@@ -28,21 +33,21 @@ const CalendarHeader: FC = () => {
     navigate('/exercises_setting');
   };
 
-  const handleSignoutClick = async () => {
+  const handleLogoutClick = async () => {
     try {
-      const response = await fetch(`${BaseURL()}/signout`, {
+      const response = await fetch(`${BaseURL()}/logout`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
       if (response.ok) {
-        navigate('/login', { state: { message: 'サインアウトしました' } });
+        navigate('/login', { state: { message: 'ログアウトしました' } });
       } else {
-        console.error('サインアウトに失敗しました');
+        console.error('ログアウトに失敗しました');
       }
     } catch (error) {
-      console.error('サインアウト中にエラーが発生しました', error);
+      console.error('ログアウト中にエラーが発生しました', error);
     }
   };
 
@@ -59,7 +64,7 @@ const CalendarHeader: FC = () => {
         });
         const result = await response.json();
         if (response.ok && result.status === 1) {
-          const exerciseDays = result.data.filter((day: any) => day.exerciseDone).length;
+          const exerciseDays = result.data.filter((day: DayProps) => day.exerciseDone).length;
           setExerciseDaysCount(exerciseDays);
         } else {
           console.error('データの取得に失敗しました:', result.detail);
@@ -86,7 +91,7 @@ const CalendarHeader: FC = () => {
         <img src="/images/icon-settings.png" alt="Settings" className="w-8 h-8 mt-2 cursor-pointer" onClick={handleSettingsClick} />
       </div>
       <div className="absolute right-[45px] group">
-        <img src="/images/icon-signout.png" alt="Signout" className="w-10 h-10 mt-1 cursor-pointer" onClick={handleSignoutClick} />
+        <img src="/images/icon-logout.png" alt="Logout" className="w-10 h-10 mt-1 cursor-pointer" onClick={handleLogoutClick} />
       </div>
       <div className="flex justify-between items-center p-0">
         <div className="recommendation-container">

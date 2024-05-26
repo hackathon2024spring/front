@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
 import Login from "./components/Login";
-import Signup from "./components/Signup";
+import Register from "./components/Register";
 import Calendar from "./components/Calendar";
 import User from "./components/User";
 import Exercise from "./components/Exercise";
@@ -18,7 +18,7 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<Login />} errorElement={<ErrorPage />} />
       <Route path="login" element={<Login />} />
-      <Route path="signup" element={<Signup />} />
+      <Route path="register" element={<Register />} />
       <Route path="calendar" element={<Calendar />} />
       <Route path="user" element={<User />} />
       <Route path="exercise" element={<Exercise />} />
