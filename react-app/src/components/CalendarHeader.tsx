@@ -96,7 +96,7 @@ const CalendarHeader: FC = () => {
       <div className="flex justify-between items-center p-0">
         <div className="recommendation-container">
           <span className="activity-text">今月は&nbsp;✨&nbsp;<span className="scale-150 inline-block">&nbsp;{exerciseDaysCount}日&nbsp;</span>&nbsp;✨&nbsp;運動しています！</span>
-          <span className="activity-text">すごい！</span>
+          {exerciseDaysCount != 0 && <span className="activity-text">すごい！</span>}
         </div>
       </div>
 
