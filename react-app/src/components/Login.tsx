@@ -118,7 +118,7 @@ const Login: FC = () => {
               )}
             </div>
             <div className="text-center">
-              <Link className="text-lg text-customBrown font-semibold font-roundedMplus hover:underline" to="/signup">
+              <Link className="text-lg text-customBrown font-semibold font-roundedMplus hover:underline" to="/register">
                 新規登録はこちら
               </Link>
             </div>
